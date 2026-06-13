@@ -42,12 +42,14 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 echo Installing Python %pyver%...
-start /wait "" "%TEMP%\python-installer.exe" /quiet InstallAllUsers=1 PrependPath=1 Shortcuts=0 Include_launcher=1
+"%TEMP%\python-installer.exe" /quiet InstallAllUsers=1 PrependPath=1 Shortcuts=0 Include_launcher=1
 set install_exit=%errorlevel%
-if %install_exit% neq 0 if %install_exit% neq 1641 (
-    echo [ERROR] Python installation failed (code: %install_exit%).
-    pause
-    exit /b 1
+if %install_exit% neq 0 (
+    if %install_exit% neq 1641 (
+        echo [ERROR] Python installation failed (code: %install_exit%).
+        pause
+        exit /b 1
+    )
 )
 echo [OK] Python %pyver% installed
 goto :python_installed
