@@ -112,38 +112,6 @@ if %errorlevel% neq 0 (
 )
 echo [OK] Dependencies installed
 
-REM ---- GNU Make ----
-echo.
-where make >nul 2>&1
-if %errorlevel% equ 0 (
-    echo [OK] GNU Make found
-    goto :done
-)
-
-echo GNU Make is not installed.
-set /p "installmake=Install Make via Chocolatey? (Y/N): "
-if /i "!installmake!" neq "Y" (
-    echo Skipping Make. Run: python WASD_Square.py
-    goto :done
-)
-
-where choco >nul 2>&1
-if %errorlevel% neq 0 (
-    echo Installing Chocolatey...
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
-    if %errorlevel% neq 0 (
-        echo [WARN] Chocolatey install failed.
-        goto :done
-    )
-    echo [OK] Chocolatey installed
-)
-choco install make -y
-if %errorlevel% equ 0 (
-    echo [OK] GNU Make installed
-) else (
-    echo [WARN] Make install failed.
-)
-
 :done
 echo.
 echo ============================================
